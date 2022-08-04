@@ -1,4 +1,3 @@
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import axios from "axios";
 import {
   APIParliamentMember,
@@ -27,10 +26,4 @@ export const fetchParliamentMembers = async () => {
     "https://data.riksdagen.se/personlista/?utformat=json"
   );
   return res.data.personlista.person.map(reviveParliamentMemberList);
-};
-
-export const fetchParties = () => {
-  fetch("https://data.riksdagen.se/personlista/?utformat=json").then((res) =>
-    console.log(res)
-  );
 };

@@ -2,7 +2,7 @@ import axios from "axios";
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Providers } from "./providers/Providers";
-import { MainView } from "./views/MainView";
+import MainView from "./views/MainView";
 
 axios.interceptors.request.use(
   (config) => {
