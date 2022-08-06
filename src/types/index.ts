@@ -1,1 +1,5 @@
-export type { APIParliamentMember, ParliamentMember } from "./ParliamentMember";
+export type {
+  APIParliamentMember,
+  ParliamentMember,
+  ParliamentMemberListByParty,
+} from "./ParliamentMember";

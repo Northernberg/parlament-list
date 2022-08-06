@@ -1,13 +1,33 @@
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { FC } from "react";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const Navbar: FC = () => {
+  const navigate = useNavigate();
   return (
-    <Grid container justifyContent="center" wrap="nowrap" gap={2}>
-      <NavLink to="/">Partier</NavLink>
-      <NavLink to="/search">Sök medlemmar</NavLink>
-      <NavLink to="/detailed">Detalj</NavLink>
+    <Grid
+      container
+      justifyContent="center"
+      wrap="nowrap"
+      gap={2}
+      bgcolor="#264653"
+    >
+      <Button
+        onClick={() => navigate("/")}
+        sx={{
+          color: "white",
+        }}
+      >
+        Partier
+      </Button>
+      <Button
+        onClick={() => navigate("/search")}
+        sx={{
+          color: "white",
+        }}
+      >
+        Sök medlemmar
+      </Button>
     </Grid>
   );
 };

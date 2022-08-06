@@ -8,9 +8,22 @@ interface PartyCardProps {
 }
 export const PartyCard: FC<PartyCardProps> = ({ title, icon, onClick }) => {
   return (
-    <Card sx={{ width: "100%" }} onClick={onClick}>
+    <Card
+      onClick={onClick}
+      sx={{
+        backgorundColor: "black",
+        width: "100%",
+        cursor: "pointer",
+        transition: "all 150ms ease-in-out",
+        "&: hover": {
+          transform: "scale(1.15)",
+          filter: "brightness(0.9)",
+        },
+      }}
+    >
       <Grid container alignItems="center" direction="column">
         <img
+          alt="Party image"
           src={`${icon}`}
           width="80"
           height="80"

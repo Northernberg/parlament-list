@@ -1,8 +1,5 @@
 import axios from "axios";
-import {
-  APIParliamentMember,
-  ParliamentMember,
-} from "../types/ParliamentMember";
+import { APIParliamentMember, ParliamentMember } from "../types";
 
 export interface ParliamentMemberListResponse {
   personlista: {

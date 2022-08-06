@@ -13,3 +13,7 @@ export type ParliamentMember = {
   party: string;
   picture: string;
 };
+
+export interface ParliamentMemberListByParty {
+  [key: string]: ParliamentMember[];
+}

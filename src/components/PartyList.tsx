@@ -1,39 +1,44 @@
-import { FC, useState } from "react";
-import { Parties } from "../constants/Parties";
-import { Button, Grid, Slide } from "@mui/material";
-import { PartyCard } from ".";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
+import { Grid, Box, Typography } from "@mui/material";
+import { FC } from "react";
+import { Parties, PartySettings } from "../constants/Parties";
+import { PartyCard } from "./PartyCard";
 
-export const PartyList: FC = () => {
-  const [partySelected, setPartySelected] = useState<string | undefined>();
+interface PartyListProps {
+  totalParliamentMembers: number | undefined;
+  onPartySelect: (party: PartySettings) => void;
+}
+export const PartyList: FC<PartyListProps> = ({
+  totalParliamentMembers,
+  onPartySelect,
+}) => {
   return (
-    <Grid container gap={4}>
-      {partySelected ? (
-        <div>
-          <Slide direction="right" in={true} mountOnEnter unmountOnExit>
-            <div>
-              <Button onClick={() => setPartySelected(undefined)}>
-                <ArrowBackIcon /> Tillbaka
-              </Button>
-              <p> {partySelected}</p>
-            </div>
-          </Slide>
-        </div>
-      ) : (
-        <>
-          {Object.entries(Parties).map(([_, party]) => {
-            return (
-              <Grid key={party.title} container item xs={4} sm={3} md={2}>
-                <PartyCard
-                  {...party}
-                  onClick={() => setPartySelected(party.title)}
-                />
-              </Grid>
-            );
-          })}
-        </>
-      )}
+    <Grid container>
+      <Box paddingX={2}>
+        <Typography variant="body1" width="100%">
+          Partierna i riksdagen
+        </Typography>
+        <Typography variant="body2">
+          Det finns {totalParliamentMembers} ledamöter
+        </Typography>
+      </Box>
+      <Grid container>
+        {Object.entries(Parties).map(([_, party]) => {
+          return (
+            <Grid
+              key={party.title}
+              container
+              item
+              xs={4}
+              sm={3}
+              md={2}
+              paddingX={2}
+              paddingY={2}
+            >
+              <PartyCard {...party} onClick={() => onPartySelect(party)} />
+            </Grid>
+          );
+        })}
+      </Grid>
     </Grid>
   );
 };
