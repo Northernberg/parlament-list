@@ -4,10 +4,11 @@ import { FC } from "react";
 interface PartyCardProps {
   title: string;
   icon: string;
+  onClick: () => void;
 }
-export const PartyCard: FC<PartyCardProps> = ({ title, icon }) => {
+export const PartyCard: FC<PartyCardProps> = ({ title, icon, onClick }) => {
   return (
-    <Card sx={{ width: "100%" }}>
+    <Card sx={{ width: "100%" }} onClick={onClick}>
       <Grid container alignItems="center" direction="column">
         <img
           src={`${icon}`}

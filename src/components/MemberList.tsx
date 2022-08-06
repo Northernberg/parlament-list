@@ -15,15 +15,5 @@ export const MemberList: FC<MemberListProps> = ({
 }) => {
   if (isLoading) return <CircularProgress />;
 
-  return (
-    <Grid container gap={4}>
-      {Object.entries(Parties).map(([_, party]) => {
-        return (
-          <Grid container item xs={4} sm={3} md={2}>
-            <PartyCard {...party} />
-          </Grid>
-        );
-      })}
-    </Grid>
-  );
+  return <Grid container gap={4}></Grid>;
 };

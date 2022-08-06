@@ -7,6 +7,7 @@ export const Navbar: FC = () => {
     <Grid container justifyContent="center" wrap="nowrap" gap={2}>
       <NavLink to="/">Partier</NavLink>
       <NavLink to="/search">Sök medlemmar</NavLink>
+      <NavLink to="/detailed">Detalj</NavLink>
     </Grid>
   );
 };

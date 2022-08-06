@@ -1,7 +1,6 @@
 import { Grid } from "@mui/material";
 import { FC } from "react";
-import { Searchbar } from "../components";
-import { MemberList } from "../components";
+import { PartyList, Searchbar } from "../components";
 import { useParliamentMemberStore } from "../hooks/useParliamentMemberStore";
 
 const MainView: FC = () => {
@@ -10,10 +9,7 @@ const MainView: FC = () => {
   return (
     <Grid container gap={2}>
       <Searchbar />
-      <MemberList
-        memberList={parliamentMemberList}
-        isLoading={queryRes.isLoading}
-      />
+      <PartyList />
     </Grid>
   );
 };
