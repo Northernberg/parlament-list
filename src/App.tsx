@@ -1,8 +1,10 @@
 import axios from "axios";
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Layout } from "./components";
 import { Providers } from "./providers/Providers";
 import MainView from "./views/MainView";
+import SearchView from "./views/SearchView";
 
 axios.interceptors.request.use(
   (config) => {
@@ -19,9 +21,12 @@ const App = () => {
   return (
     <Providers>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<MainView />} />
-        </Routes>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<MainView />} />
+            <Route path="/search" element={<SearchView />} />
+          </Routes>
+        </Layout>
       </BrowserRouter>
     </Providers>
   );
