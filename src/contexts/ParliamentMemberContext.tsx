@@ -1,7 +1,7 @@
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { createContext, FC, ReactNode, useContext, useState } from "react";
-import { fetchParliamentMembers } from "../adapters/riksdagenAdapter";
-import { ParliamentMember, ParliamentMemberListByParty } from "../types";
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { createContext, FC, ReactNode, useContext, useState } from 'react';
+import { fetchParliamentMembers } from '../adapters/riksdagenAdapter';
+import { ParliamentMember, ParliamentMemberListByParty } from '../types';
 
 interface ParliamentMemberContextState {
   parliamentMemberList: ParliamentMemberListByParty;
@@ -16,17 +16,17 @@ const ParliamentMemberContext = createContext<ParliamentMemberContextState>({
 });
 
 const sortMembersByParty = (
-  person: ParliamentMember[]
+  member: ParliamentMember[]
 ): ParliamentMemberListByParty => {
-  return person.reduce(
-    (personList: ParliamentMemberListByParty, currentPerson) => {
+  return member.reduce(
+    (memberList: ParliamentMemberListByParty, currentMember) => {
       const dataToPush: ParliamentMember[] =
-        personList[currentPerson.party] ?? [];
+        memberList[currentMember.party] ?? [];
 
-      dataToPush.push(currentPerson);
-      personList[currentPerson.party] = dataToPush;
+      dataToPush.push(currentMember);
+      memberList[currentMember.party] = dataToPush;
 
-      return personList;
+      return memberList;
     },
     {}
   );
@@ -41,7 +41,7 @@ export const ParliamentMemberProvider: FC<{ children?: ReactNode }> = ({
   const [parliamentMemberList, setParliamentMemberList] =
     useState<ParliamentMemberListByParty>({});
 
-  const queryRes = useQuery(["persons"], fetchParliamentMembers, {
+  const queryRes = useQuery(['persons'], fetchParliamentMembers, {
     onSuccess: (ParliamentMembers) => {
       const sortedMemberList = sortMembersByParty(ParliamentMembers);
       setParliamentMemberList(sortedMemberList);

@@ -1,7 +1,7 @@
-import { Grid, Box, Typography } from "@mui/material";
-import { FC } from "react";
-import { Parties, PartySettings } from "../constants/Parties";
-import { PartyCard } from "./PartyCard";
+import { Grid, Box, Typography } from '@mui/material';
+import { FC } from 'react';
+import { Parties, PartySettings } from '../constants/Parties';
+import { PartyCard } from './PartyCard';
 
 interface PartyListProps {
   totalParliamentMembers: number | undefined;
@@ -14,11 +14,11 @@ export const PartyList: FC<PartyListProps> = ({
   return (
     <Grid container>
       <Box paddingX={2}>
-        <Typography variant="body1" width="100%">
-          Partierna i riksdagen
+        <Typography variant='h5' width='100%'>
+          Parties
         </Typography>
-        <Typography variant="body2">
-          Det finns {totalParliamentMembers} ledamöter
+        <Typography variant='body2'>
+          There are {totalParliamentMembers} parliament members
         </Typography>
       </Box>
       <Grid container>
@@ -30,7 +30,6 @@ export const PartyList: FC<PartyListProps> = ({
               item
               xs={4}
               sm={3}
-              md={2}
               paddingX={2}
               paddingY={2}
             >

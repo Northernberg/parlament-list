@@ -1,33 +1,19 @@
-import { Button, Grid } from "@mui/material";
-import { FC } from "react";
-import { useNavigate } from "react-router-dom";
+import { Grid, Typography } from '@mui/material';
+import { FC } from 'react';
 
 export const Navbar: FC = () => {
-  const navigate = useNavigate();
   return (
     <Grid
       container
-      justifyContent="center"
-      wrap="nowrap"
+      justifyContent='center'
+      wrap='nowrap'
       gap={2}
-      bgcolor="#264653"
+      bgcolor='#264653'
+      padding={2}
     >
-      <Button
-        onClick={() => navigate("/")}
-        sx={{
-          color: "white",
-        }}
-      >
-        Partier
-      </Button>
-      <Button
-        onClick={() => navigate("/search")}
-        sx={{
-          color: "white",
-        }}
-      >
-        Sök medlemmar
-      </Button>
+      <Typography variant='h5' sx={{ color: '#e9c46a' }}>
+        Parliament Helper
+      </Typography>
     </Grid>
   );
 };
