@@ -10,11 +10,12 @@ const reviveParliamentMemberList = (
   person: APIParliamentMember
 ): ParliamentMember => {
   return {
-    gender: person.kons || "",
+    id: person.sourceid || "",
     firstname: person.tilltalsnamn || "",
     lastname: person.efternamn || "",
     party: person.parti || "",
-    picture: person.bild_url_80 || "",
+    picture: person.bild_url_192 || "",
+    status: person.status || "",
   };
 };
 

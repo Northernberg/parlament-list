@@ -1,17 +1,19 @@
 export type APIParliamentMember = {
-  kons: string;
+  sourceid: string;
   efternamn: string;
   tilltalsnamn: string;
   parti: string;
-  bild_url_80: string;
+  bild_url_192: string;
+  status: string;
 };
 
 export type ParliamentMember = {
-  gender: string;
+  id: string;
   lastname: string;
   firstname: string;
   party: string;
   picture: string;
+  status: string;
 };
 
 export interface ParliamentMemberListByParty {
