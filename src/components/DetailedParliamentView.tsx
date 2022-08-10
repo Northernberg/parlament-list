@@ -17,7 +17,7 @@ const DetailedParliamentView: FC<DetailedParliamentViewProps> = ({
 }) => {
   return (
     <Slide direction="right" in={true} mountOnEnter unmountOnExit>
-      <Box display="flex" flexDirection="column">
+      <Grid container flexDirection="column">
         <Grid
           container
           paddingX={12}
@@ -72,7 +72,7 @@ const DetailedParliamentView: FC<DetailedParliamentViewProps> = ({
             </Grid>
           ))}
         </Grid>
-      </Box>
+      </Grid>
     </Slide>
   );
 };

@@ -29,6 +29,20 @@ export const SearchFilters: FC<SearchFiltersProps> = ({ setFilters }) => {
         All
       </MenuItem>
       {Object.keys(parliamentMemberList).map((party) => {
+        if (party === "-") {
+          return (
+            <MenuItem
+              key={party}
+              value={party}
+              onClick={() => {
+                setPartyFilter(party);
+                setFilters(party);
+              }}
+            >
+              Without party designation
+            </MenuItem>
+          );
+        }
         return (
           <MenuItem
             key={party}

@@ -47,7 +47,7 @@ export const Parties: { [party: string]: PartySettings } = {
   },
   "-": {
     key: "-",
-    title: "Utan partibeteckning",
+    title: "Without party designation",
     icon: `${process.env.PUBLIC_URL}/icons/other.png`,
   },
 };
