@@ -15,7 +15,7 @@ const reviveParliamentMemberList = (
     lastname: person.efternamn || "",
     party: person.parti || "",
     picture: person.bild_url_192 || "",
-    status: person.status || "",
+    region: person.valkrets || "",
   };
 };
 

@@ -6,7 +6,7 @@ interface ParliamentMemberCardProps {
   firstname: string;
   lastname: string;
   picture: string;
-  status: string;
+  region: string;
   party: string;
   displayIcon?: boolean;
 }
@@ -45,7 +45,7 @@ export const ParliamentMemberCard: FC<ParliamentMemberCardProps> = ({
   firstname,
   lastname,
   picture,
-  status,
+  region,
   party,
   displayIcon = false,
 }) => {
@@ -60,8 +60,8 @@ export const ParliamentMemberCard: FC<ParliamentMemberCardProps> = ({
           position: "relative",
         }}
       >
-        <img src={picture} width="80" alt="profile picture" />
-        <Box>
+        <img src={picture} width="80" alt="parliament member" />
+        <Box display="flex" flexDirection="column" flexGrow={1} paddingX={1}>
           <Typography
             width="100%"
             variant="body1"
@@ -71,14 +71,19 @@ export const ParliamentMemberCard: FC<ParliamentMemberCardProps> = ({
             variant="body2"
             fontWeight="light"
             color="gray"
-          >{`${status}`}</Typography>
+          >{`${region}`}</Typography>
         </Box>
         {displayIcon && (
-          <img
-            src={Parties[party].icon}
-            width="40"
-            style={{ objectFit: "contain", position: "absolute", right: 0 }}
-          />
+          <Box display="flex" alignSelf="start">
+            <img
+              alt="party icon"
+              src={Parties[party].icon}
+              width="40"
+              style={{
+                objectFit: "contain",
+              }}
+            />
+          </Box>
         )}
       </Grid>
     </Card>

@@ -17,11 +17,17 @@ const DetailedParliamentView: FC<DetailedParliamentViewProps> = ({
 }) => {
   return (
     <Slide direction="right" in={true} mountOnEnter unmountOnExit>
-      <Box>
-        <Grid paddingX={2} paddingTop={2} sx={{ backgroundColor: "white" }}>
+      <Box display="flex" flexDirection="column">
+        <Grid
+          container
+          paddingX={12}
+          paddingTop={2}
+          sx={{ backgroundColor: "white" }}
+        >
           <Button
+            color="primary"
             size="small"
-            variant="outlined"
+            variant="text"
             onClick={() => setPartySelected(undefined)}
             sx={{ height: "fit-content" }}
           >
@@ -36,6 +42,7 @@ const DetailedParliamentView: FC<DetailedParliamentViewProps> = ({
             paddingBottom={2}
           >
             <img
+              alt="party icon"
               src={partySelected.icon}
               width="50px"
               height="50px"
@@ -50,7 +57,7 @@ const DetailedParliamentView: FC<DetailedParliamentViewProps> = ({
             </Box>
           </Grid>
         </Grid>
-        <Grid container sx={{ backgroundColor: "white" }}>
+        <Grid container sx={{ backgroundColor: "white" }} paddingX={10}>
           {parliamentMemberList[partySelected.key].map((member) => (
             <Grid
               key={member.id}

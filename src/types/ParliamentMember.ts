@@ -4,7 +4,7 @@ export type APIParliamentMember = {
   tilltalsnamn: string;
   parti: string;
   bild_url_192: string;
-  status: string;
+  valkrets: string;
 };
 
 export type ParliamentMember = {
@@ -13,7 +13,7 @@ export type ParliamentMember = {
   firstname: string;
   party: string;
   picture: string;
-  status: string;
+  region: string;
 };
 
 export interface ParliamentMemberListByParty {

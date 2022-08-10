@@ -1,9 +1,9 @@
-export { Searchbar } from './Searchbar';
-export { MemberList } from './MemberList';
+export { MemberList } from "./MemberList";
 
-export { PartyCard } from './PartyCard';
+export { PartyCard } from "./PartyCard";
 
-export { Layout } from './Layout/Layout';
-export { PartyList } from './PartyList';
+export { Layout } from "./Layout/Layout";
+export { PartyList } from "./PartyList";
 
-export { ParliamentMemberCard } from './ParliamentMemberCard';
+export { ParliamentMemberCard } from "./ParliamentMemberCard";
+export { SearchFilters } from "./SearchFilters";

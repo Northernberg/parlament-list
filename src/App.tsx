@@ -4,7 +4,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Layout } from "./components";
 import { Providers } from "./providers/Providers";
 import MainView from "./views/MainView";
-import SearchView from "./views/SearchView";
 
 axios.interceptors.request.use(
   (config) => {
@@ -24,7 +23,6 @@ const App = () => {
         <Layout>
           <Routes>
             <Route path="/" element={<MainView />} />
-            <Route path="/search" element={<SearchView />} />
           </Routes>
         </Layout>
       </BrowserRouter>

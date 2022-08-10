@@ -1,7 +1,7 @@
-import { Grid, Box, Typography } from '@mui/material';
-import { FC } from 'react';
-import { Parties, PartySettings } from '../constants/Parties';
-import { PartyCard } from './PartyCard';
+import { Grid, Box, Typography } from "@mui/material";
+import { FC } from "react";
+import { Parties, PartySettings } from "../constants/Parties";
+import { PartyCard } from "./PartyCard";
 
 interface PartyListProps {
   totalParliamentMembers: number | undefined;
@@ -13,15 +13,20 @@ export const PartyList: FC<PartyListProps> = ({
 }) => {
   return (
     <Grid container>
-      <Box paddingX={2}>
-        <Typography variant='h5' width='100%'>
+      <Grid
+        container
+        paddingY={2}
+        paddingX={12}
+        sx={{ backgroundColor: "#264653" }}
+      >
+        <Typography variant="h5" width="100%" sx={{ color: "#e9c46a" }}>
           Parties
         </Typography>
-        <Typography variant='body2'>
+        <Typography variant="body2" sx={{ color: "white" }}>
           There are {totalParliamentMembers} parliament members
         </Typography>
-      </Box>
-      <Grid container>
+      </Grid>
+      <Grid container paddingX={10}>
         {Object.entries(Parties).map(([_, party]) => {
           return (
             <Grid

@@ -6,9 +6,7 @@ export const Layout: FC<{ children?: ReactNode }> = ({ children }) => {
   return (
     <>
       <Navbar />
-      <Grid container padding={2}>
-        {children}
-      </Grid>
+      <Grid container>{children}</Grid>
     </>
   );
 };
