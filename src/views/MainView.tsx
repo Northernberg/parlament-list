@@ -3,6 +3,7 @@ import {
   Button,
   CircularProgress,
   Grid,
+  IconButton,
   TextField,
   Typography,
 } from "@mui/material";
@@ -13,6 +14,7 @@ import { useParliamentMemberStore } from "../contexts/ParliamentMemberContext";
 import Fuse from "fuse.js";
 import { ParliamentMember } from "../types";
 import DetailedParliamentView from "../components/DetailedParliamentView";
+import { Clear } from "@mui/icons-material";
 
 const fuseOptions = {
   useExtendedSearch: true,
@@ -134,6 +136,13 @@ const MainView: FC = () => {
               size="small"
               value={searchText}
               onChange={(event) => setSearchText(event.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <IconButton onClick={() => setSearchText("")}>
+                    <Clear />
+                  </IconButton>
+                ),
+              }}
               sx={{ backgroundColor: "white", borderRadius: "4px" }}
             />
           </Grid>
