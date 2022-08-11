@@ -16,14 +16,15 @@ const DetailedParliamentView: FC<DetailedParliamentViewProps> = ({
   parliamentMemberList,
 }) => {
   return (
-    <Slide direction="right" in={true} mountOnEnter unmountOnExit>
-      <Grid container flexDirection="column">
-        <Grid
-          container
-          paddingX={12}
-          paddingTop={2}
-          sx={{ backgroundColor: "white" }}
-        >
+    <Slide
+      direction="right"
+      in={true}
+      mountOnEnter
+      unmountOnExit
+      style={{ width: "100%", backgroundColor: "white" }}
+    >
+      <Box>
+        <Grid container paddingX={12} paddingTop={2}>
           <Button
             color="primary"
             size="small"
@@ -57,7 +58,7 @@ const DetailedParliamentView: FC<DetailedParliamentViewProps> = ({
             </Box>
           </Grid>
         </Grid>
-        <Grid container sx={{ backgroundColor: "white" }} paddingX={10}>
+        <Grid container paddingX={10}>
           {parliamentMemberList[partySelected.key].map((member) => (
             <Grid
               key={member.id}
@@ -72,7 +73,7 @@ const DetailedParliamentView: FC<DetailedParliamentViewProps> = ({
             </Grid>
           ))}
         </Grid>
-      </Grid>
+      </Box>
     </Slide>
   );
 };

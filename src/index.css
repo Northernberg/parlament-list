@@ -6,3 +6,9 @@ body {
   min-height: 100vh;
   background-color: #edf2f4 !important;
 }
+
+html,
+body,
+#root {
+  height: 100vh;
+}
