@@ -23,7 +23,7 @@ export const PartyCard: FC<PartyCardProps> = ({ title, icon, onClick }) => {
     >
       <Grid container alignItems="center" direction="column">
         <img
-          alt="Party image"
+          alt="Party"
           src={`${icon}`}
           width="80"
           height="80"

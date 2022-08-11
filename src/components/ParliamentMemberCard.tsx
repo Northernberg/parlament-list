@@ -8,6 +8,7 @@ interface ParliamentMemberCardProps {
   picture: string;
   region: string;
   party: string;
+  url: string;
   displayIcon?: boolean;
 }
 
@@ -47,10 +48,19 @@ export const ParliamentMemberCard: FC<ParliamentMemberCardProps> = ({
   picture,
   region,
   party,
+  url,
   displayIcon = false,
 }) => {
   return (
-    <Card sx={{ width: "100%", boxShadow: 6 }}>
+    <Card
+      sx={{ width: "100%", boxShadow: 6 }}
+      onClick={() => {
+        window.open(
+          `https://www.riksdagen.se/sv/ledamoter-partier/ledamot/${url}`,
+          "_blank"
+        );
+      }}
+    >
       <Grid
         container
         wrap="nowrap"
