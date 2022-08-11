@@ -1,6 +1,6 @@
-import { Card, Grid, Typography, Box } from "@mui/material";
-import { FC } from "react";
-import { Parties } from "../constants/Parties";
+import { Card, Grid, Typography, Box } from '@mui/material';
+import { FC } from 'react';
+import { Parties } from '../constants/Parties';
 
 interface ParliamentMemberCardProps {
   firstname: string;
@@ -12,33 +12,33 @@ interface ParliamentMemberCardProps {
   displayIcon?: boolean;
 }
 
-const styles: { [key: string]: { color: string } } = {
+const cardStyles: { [key: string]: { color: string } } = {
   S: {
-    color: "#E40929",
+    color: '#E40929',
   },
   KD: {
-    color: "#015EA1",
+    color: '#015EA1',
   },
   SD: {
-    color: "#5AC0F0",
+    color: '#5AC0F0',
   },
   C: {
-    color: "#134738",
+    color: '#134738',
   },
   M: {
-    color: "#8ED9F9",
+    color: '#8ED9F9',
   },
   L: {
-    color: "#0168B3",
+    color: '#0168B3',
   },
   V: {
-    color: "#DF352B",
+    color: '#DF352B',
   },
   MP: {
-    color: "#0FAA4C",
+    color: '#0FAA4C',
   },
-  "-": {
-    color: "#264653",
+  '-': {
+    color: '#264653',
   },
 };
 
@@ -53,44 +53,50 @@ export const ParliamentMemberCard: FC<ParliamentMemberCardProps> = ({
 }) => {
   return (
     <Card
-      sx={{ width: "100%", boxShadow: 6 }}
+      sx={{
+        width: '100%',
+        boxShadow: 6,
+        cursor: 'pointer',
+        '&:hover': { filter: 'brightness(0.95)' },
+      }}
       onClick={() => {
         window.open(
           `https://www.riksdagen.se/sv/ledamoter-partier/ledamot/${url}`,
-          "_blank"
+          '_blank'
         );
       }}
     >
       <Grid
         container
-        wrap="nowrap"
+        wrap='nowrap'
         sx={{
-          borderLeft: "4px solid",
-          borderColor: party in styles ? styles[party].color : "#264653",
-          position: "relative",
+          borderLeft: '4px solid',
+          borderColor:
+            party in cardStyles ? cardStyles[party].color : '#264653',
+          position: 'relative',
         }}
       >
-        <img src={picture} width="80" alt="parliament member" />
-        <Box display="flex" flexDirection="column" flexGrow={1} paddingX={1}>
+        <img src={picture} width='80' alt='parliament member' />
+        <Box display='flex' flexDirection='column' flexGrow={1} paddingX={1}>
           <Typography
-            width="100%"
-            variant="body1"
-            fontWeight="bold"
+            width='100%'
+            variant='body1'
+            fontWeight='bold'
           >{`${firstname} ${lastname}`}</Typography>
           <Typography
-            variant="body2"
-            fontWeight="light"
-            color="gray"
+            variant='body2'
+            fontWeight='light'
+            color='gray'
           >{`${region}`}</Typography>
         </Box>
         {displayIcon && (
-          <Box display="flex" alignSelf="start">
+          <Box display='flex' alignSelf='start'>
             <img
-              alt="party icon"
+              alt='party icon'
               src={Parties[party].icon}
-              width="40"
+              width='40'
               style={{
-                objectFit: "contain",
+                objectFit: 'contain',
               }}
             />
           </Box>
