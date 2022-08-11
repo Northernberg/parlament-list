@@ -1,9 +1,10 @@
 import { Box, Grid, Button, Typography, Slide } from "@mui/material";
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { ParliamentMemberCard } from "./ParliamentMemberCard";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { PartySettings } from "../constants/Parties";
 import { ParliamentMemberListByParty } from "../types";
+import { StatisticBar } from ".";
 
 interface DetailedParliamentViewProps {
   partySelected: PartySettings;
@@ -15,6 +16,22 @@ const DetailedParliamentView: FC<DetailedParliamentViewProps> = ({
   setPartySelected,
   parliamentMemberList,
 }) => {
+  const genderStatistics = useMemo(() => {
+    const allPartyMembers = parliamentMemberList[partySelected.key];
+    const maleAmount = allPartyMembers.filter(
+      (member) => member.gender === "man"
+    );
+    const femaleAmount = allPartyMembers.filter(
+      (member) => member.gender === "kvinna"
+    );
+    return {
+      gender: [
+        (maleAmount.length / allPartyMembers.length) * 100,
+        (femaleAmount.length / allPartyMembers.length) * 100,
+      ],
+    };
+  }, [parliamentMemberList, partySelected.key]);
+
   return (
     <Slide
       direction="right"
@@ -57,6 +74,13 @@ const DetailedParliamentView: FC<DetailedParliamentViewProps> = ({
               </Typography>
             </Box>
           </Grid>
+          <Typography variant="body1" fontWeight="bold">
+            Gender distribution in party
+          </Typography>
+          <StatisticBar
+            groupA={{ title: "Male", percentage: genderStatistics.gender[0] }}
+            groupB={{ title: "Female", percentage: genderStatistics.gender[1] }}
+          />
         </Grid>
         <Grid container paddingX={10}>
           {parliamentMemberList[partySelected.key].map((member) => (

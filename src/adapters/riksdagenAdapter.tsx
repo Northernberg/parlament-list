@@ -16,6 +16,8 @@ const reviveParliamentMemberList = (
     party: person.parti || "",
     picture: person.bild_url_192 || "",
     region: person.valkrets || "",
+    gender: person.kon || "",
+    url: `${person.sorteringsnamn}_${person.sourceid}`,
   };
 };
 
