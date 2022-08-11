@@ -10,31 +10,31 @@ export const StatisticBar: FC<StatisticBarProps> = ({ groupA, groupB }) => {
   return (
     <Grid
       container
-      wrap='nowrap'
+      wrap="nowrap"
       gap={2}
       paddingY={2}
-      data-testid='statisticBar'
+      data-testid="statisticBar"
     >
-      <Typography variant='body2' fontWeight='bold'>
+      <Typography variant="body2" fontWeight="bold">
         {groupA.title}
       </Typography>
-      <Grid container height='25px'>
+      <Grid container height="25px">
         <Box
-          data-testid='groupA'
-          display='flex'
+          data-testid="groupA"
+          display="flex"
           flexBasis={`${groupA.percentage}%`}
-          borderRadius='4px 0px 0px 4px'
+          borderRadius="4px 0px 0px 4px"
           sx={{ backgroundColor: '#2a9d8f' }}
         />
         <Box
-          data-testid='groupB'
-          display='flex'
+          data-testid="groupB"
+          display="flex"
           flexBasis={`${groupB.percentage}%`}
-          borderRadius='0px 4px 4px 0px'
+          borderRadius="0px 4px 4px 0px"
           sx={{ backgroundColor: '#f4a261' }}
         />
       </Grid>
-      <Typography variant='body2' fontWeight='bold'>
+      <Typography variant="body2" fontWeight="bold">
         {groupB.title}
       </Typography>
     </Grid>

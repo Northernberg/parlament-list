@@ -5,20 +5,20 @@ import {
   IconButton,
   TextField,
   Typography,
-} from "@mui/material";
-import { FC, useState, useMemo } from "react";
-import { ParliamentMemberCard, PartyList, SearchFilters } from "../components";
-import { PartySettings } from "../constants/Parties";
-import { useParliamentMemberStore } from "../contexts/ParliamentMemberContext";
-import Fuse from "fuse.js";
-import { ParliamentMember } from "../types";
-import DetailedParliamentView from "../components/DetailedParliamentView";
-import { Clear } from "@mui/icons-material";
+} from '@mui/material';
+import { FC, useState, useMemo } from 'react';
+import { ParliamentMemberCard, PartyList, SearchFilters } from '../components';
+import { PartySettings } from '../constants/Parties';
+import { useParliamentMemberStore } from '../contexts/ParliamentMemberContext';
+import Fuse from 'fuse.js';
+import { ParliamentMember } from '../types';
+import DetailedParliamentView from '../components/DetailedParliamentView';
+import { Clear } from '@mui/icons-material';
 
 const fuseOptions = {
   useExtendedSearch: true,
   includeScore: true,
-  keys: ["firstname", "lastname", "region"],
+  keys: ['firstname', 'lastname', 'region'],
   threshold: 0.1,
   ignoreLocation: true,
 };
@@ -30,7 +30,7 @@ const MainView: FC = () => {
   const [partySelected, setPartySelected] = useState<
     PartySettings | undefined
   >();
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState('');
   const [searchResult, setSearchResult] = useState<ParliamentMember[] | null>(
     null
   );
@@ -90,23 +90,14 @@ const MainView: FC = () => {
       return (
         <Typography
           color="primary"
-          sx={{ marginLeft: "auto", marginRight: "auto" }}
+          sx={{ marginLeft: 'auto', marginRight: 'auto' }}
         >
           No results found
         </Typography>
       );
     return (searchResult ?? queryRes?.data ?? []).map((member) => {
       return (
-        <Grid
-          key={member.id}
-          container
-          item
-          xs={6}
-          md={4}
-          paddingY={2}
-          paddingX={2}
-          height="fit-content"
-        >
+        <Grid key={member.id} container item md={6} lg={4} padding={2}>
           <ParliamentMemberCard {...member} displayIcon />
         </Grid>
       );
@@ -114,7 +105,7 @@ const MainView: FC = () => {
   }, [searchResult, queryRes]);
 
   if (queryRes?.isLoading) {
-    return <CircularProgress sx={{ margin: "auto", marginTop: 2 }} />;
+    return <CircularProgress sx={{ margin: 'auto', marginTop: 2 }} />;
   }
 
   if (partySelected)
@@ -137,13 +128,13 @@ const MainView: FC = () => {
       <Grid
         container
         direction="column"
-        paddingX={12}
+        paddingX={{ md: 12, xs: 2 }}
         paddingY={2}
         gap={2}
-        sx={{ backgroundColor: "#264653", color: "white" }}
+        sx={{ backgroundColor: '#264653', color: 'white' }}
       >
         <Box>
-          <Typography variant="h5" sx={{ color: "#e9c46a" }}>
+          <Typography variant="h5" sx={{ color: '#e9c46a' }}>
             Search for members
           </Typography>
           <Typography variant="body2" fontStyle="italic">
@@ -162,15 +153,15 @@ const MainView: FC = () => {
                 endAdornment: (
                   <IconButton
                     onClick={() => {
-                      setSearchText("");
-                      onSearchSubmit("");
+                      setSearchText('');
+                      onSearchSubmit('');
                     }}
                   >
                     <Clear />
                   </IconButton>
                 ),
               }}
-              sx={{ backgroundColor: "white", borderRadius: "4px" }}
+              sx={{ backgroundColor: 'white', borderRadius: '4px' }}
             />
           </Grid>
           <Grid item xs={3}>
@@ -183,7 +174,7 @@ const MainView: FC = () => {
         </Grid>
         <Grid
           container
-          sx={{ backgroundColor: "white", borderRadius: "4px", minHeight: 400 }}
+          sx={{ backgroundColor: 'white', borderRadius: '4px', minHeight: 400 }}
         >
           {memberList}
         </Grid>

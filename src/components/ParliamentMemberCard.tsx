@@ -54,6 +54,7 @@ export const ParliamentMemberCard: FC<ParliamentMemberCardProps> = ({
   return (
     <Card
       sx={{
+        maxHeight: '100px',
         width: '100%',
         boxShadow: 6,
         cursor: 'pointer',
@@ -68,7 +69,7 @@ export const ParliamentMemberCard: FC<ParliamentMemberCardProps> = ({
     >
       <Grid
         container
-        wrap='nowrap'
+        wrap="nowrap"
         sx={{
           borderLeft: '4px solid',
           borderColor:
@@ -76,25 +77,25 @@ export const ParliamentMemberCard: FC<ParliamentMemberCardProps> = ({
           position: 'relative',
         }}
       >
-        <img src={picture} width='80' alt='parliament member' />
-        <Box display='flex' flexDirection='column' flexGrow={1} paddingX={1}>
+        <img src={picture} width="80" alt="parliament member" />
+        <Box display="flex" flexDirection="column" flexGrow={1} paddingX={1}>
           <Typography
-            width='100%'
-            variant='body1'
-            fontWeight='bold'
+            width="100%"
+            variant="body1"
+            fontWeight="bold"
           >{`${firstname} ${lastname}`}</Typography>
           <Typography
-            variant='body2'
-            fontWeight='light'
-            color='gray'
+            variant="body2"
+            fontWeight="light"
+            color="gray"
           >{`${region}`}</Typography>
         </Box>
         {displayIcon && (
-          <Box display='flex' alignSelf='start'>
+          <Box display="flex" alignSelf="start">
             <img
-              alt='party icon'
+              alt="party icon"
               src={Parties[party].icon}
-              width='40'
+              width="40"
               style={{
                 objectFit: 'contain',
               }}
