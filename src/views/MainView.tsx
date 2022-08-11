@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   CircularProgress,
   Grid,
   IconButton,
@@ -19,8 +18,9 @@ import { Clear } from "@mui/icons-material";
 const fuseOptions = {
   useExtendedSearch: true,
   includeScore: true,
-  keys: ["firstname", "lastname", "region", "party"],
-  threshold: 0.2,
+  keys: ["firstname", "lastname", "region"],
+  threshold: 0.1,
+  ignoreLocation: true,
 };
 
 const MainView: FC = () => {
@@ -35,32 +35,54 @@ const MainView: FC = () => {
     null
   );
 
-  const [filters, setFilters] = useState<{ party: string | null }>({
-    party: null,
-  });
+  const [timer, setTimer] = useState<NodeJS.Timeout | undefined>();
+  const [filteredMembers, setFilteredMembers] = useState<ParliamentMember[]>(
+    []
+  );
 
   const fuse = useMemo(() => {
     return new Fuse(queryRes?.data ?? [], fuseOptions);
   }, [queryRes?.data]);
 
-  const onSearchSubmit = () => {
-    let filteredQueryRes;
-    if (queryRes?.data) {
-      if (filters.party === null) {
-        fuse.setCollection(queryRes.data);
-      } else {
-        const filtered = queryRes.data.filter(
-          (member) => member.party === filters.party
-        );
-        fuse.setCollection(filtered);
-        filteredQueryRes = filtered;
-      }
+  const searchDelay = (value: string) => {
+    setSearchText(value);
+
+    if (timer) {
+      clearTimeout(timer);
     }
-    if (searchText.trim().length <= 0) {
-      setSearchResult(filteredQueryRes ?? queryRes?.data ?? null);
+
+    setTimer(
+      setTimeout(() => {
+        onSearchSubmit(value);
+      }, 500)
+    );
+  };
+
+  const handleFilterUpdate = (party: string | null) => {
+    if (!queryRes?.data) return;
+    let filtered;
+
+    if (party === null) {
+      fuse.setCollection(queryRes.data);
+    } else {
+      filtered = queryRes.data.filter((member) => member.party === party);
+      setFilteredMembers(filtered);
+      fuse.setCollection(filtered);
+    }
+
+    setSearchResult(
+      searchText.trim().length > 0
+        ? fuse.search(searchText).map((res) => res.item)
+        : filtered ?? null
+    );
+  };
+
+  const onSearchSubmit = (value: string) => {
+    if (value.trim().length <= 0) {
+      setSearchResult(filteredMembers.length > 0 ? filteredMembers : null);
       return;
     }
-    setSearchResult(fuse.search(searchText).map((res) => res.item));
+    setSearchResult(fuse.search(value).map((res) => res.item));
   };
 
   const memberList = useMemo(() => {
@@ -125,7 +147,7 @@ const MainView: FC = () => {
             Search for members
           </Typography>
           <Typography variant="body2" fontStyle="italic">
-            Search for name, region or party
+            Search for name or region
           </Typography>
         </Box>
         <Grid container wrap="nowrap" gap={2} alignItems="end">
@@ -135,10 +157,15 @@ const MainView: FC = () => {
               variant="outlined"
               size="small"
               value={searchText}
-              onChange={(event) => setSearchText(event.target.value)}
+              onChange={(event) => searchDelay(event.target.value)}
               InputProps={{
                 endAdornment: (
-                  <IconButton onClick={() => setSearchText("")}>
+                  <IconButton
+                    onClick={() => {
+                      setSearchText("");
+                      onSearchSubmit("");
+                    }}
+                  >
                     <Clear />
                   </IconButton>
                 ),
@@ -148,14 +175,11 @@ const MainView: FC = () => {
           </Grid>
           <Grid item xs={3}>
             <SearchFilters
-              setFilters={(value) => setFilters({ party: value })}
+              setFilters={(party) => {
+                handleFilterUpdate(party);
+              }}
             />
           </Grid>
-        </Grid>
-        <Grid container justifyContent="space-between">
-          <Button variant="outlined" color="secondary" onClick={onSearchSubmit}>
-            Search
-          </Button>
         </Grid>
         <Grid
           container
