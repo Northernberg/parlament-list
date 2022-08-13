@@ -1,10 +1,10 @@
-import { Box, Grid, Button, Typography, Slide } from '@mui/material';
-import { FC, useMemo } from 'react';
-import { ParliamentMemberCard } from './ParliamentMemberCard';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { PartySettings } from '../constants/Parties';
-import { ParliamentMemberListByParty } from '../types';
-import { StatisticBar } from '.';
+import { Box, Grid, Button, Typography, Slide } from "@mui/material";
+import { FC, useMemo } from "react";
+import { ParliamentMemberCard } from "./ParliamentMemberCard";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { PartySettings } from "../constants/Parties";
+import { ParliamentMemberListByParty } from "../types";
+import { StatisticBar } from ".";
 
 interface DetailedParliamentViewProps {
   partySelected: PartySettings;
@@ -19,10 +19,10 @@ const DetailedParliamentView: FC<DetailedParliamentViewProps> = ({
   const genderStatistics = useMemo(() => {
     const allPartyMembers = parliamentMemberList[partySelected.key];
     const maleAmount = allPartyMembers.filter(
-      (member) => member.gender === 'man'
+      (member) => member.gender === "man"
     );
     const femaleAmount = allPartyMembers.filter(
-      (member) => member.gender === 'kvinna'
+      (member) => member.gender === "kvinna"
     );
     return {
       gender: [
@@ -42,7 +42,7 @@ const DetailedParliamentView: FC<DetailedParliamentViewProps> = ({
       in={true}
       mountOnEnter
       unmountOnExit
-      style={{ width: '100%', backgroundColor: 'white' }}
+      style={{ width: "100%", backgroundColor: "white" }}
     >
       <Box>
         <Grid container paddingX={{ md: 12, xs: 2 }} paddingTop={2}>
@@ -51,7 +51,7 @@ const DetailedParliamentView: FC<DetailedParliamentViewProps> = ({
             size="small"
             variant="text"
             onClick={() => setPartySelected(undefined)}
-            sx={{ height: 'fit-content' }}
+            sx={{ height: "fit-content" }}
           >
             <ArrowBackIcon /> Back
           </Button>
@@ -69,7 +69,7 @@ const DetailedParliamentView: FC<DetailedParliamentViewProps> = ({
                 src={partySelected.icon}
                 width="50px"
                 height="50px"
-                style={{ objectFit: 'contain' }}
+                style={{ objectFit: "contain" }}
               />
               <Typography textAlign="center" variant="h5">
                 {partySelected.title}
@@ -78,19 +78,19 @@ const DetailedParliamentView: FC<DetailedParliamentViewProps> = ({
           </Grid>
           <Typography variant="body1" fontWeight="bold" width="100%">
             {`${parliamentMemberList[partySelected.key].length} Parliament
-                Members with`}{' '}
+                Members with`}{" "}
             <span
-              style={{ color: '#2a9d8f' }}
-            >{`${genderStatistics.gender[0]}%`}</span>{' '}
-            Male and{' '}
+              style={{ color: "#2a9d8f" }}
+            >{`${genderStatistics.gender[0]}%`}</span>{" "}
+            Male and{" "}
             <span
-              style={{ color: '#f4a261' }}
-            >{`${genderStatistics.gender[1]}%`}</span>{' '}
+              style={{ color: "#f4a261" }}
+            >{`${genderStatistics.gender[1]}%`}</span>{" "}
             Female members
           </Typography>
           <StatisticBar
-            groupA={{ title: 'Male', percentage: genderStatistics.gender[0] }}
-            groupB={{ title: 'Female', percentage: genderStatistics.gender[1] }}
+            groupA={{ title: "Male", percentage: genderStatistics.gender[0] }}
+            groupB={{ title: "Female", percentage: genderStatistics.gender[1] }}
           />
         </Grid>
         <Grid container paddingX={{ md: 10 }}>
