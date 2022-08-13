@@ -6,7 +6,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { FC, useState, useMemo } from 'react';
+import { FC, useState, useMemo, useEffect } from 'react';
 import { ParliamentMemberCard, PartyList, SearchFilters } from '../components';
 import { PartySettings } from '../constants/Parties';
 import { useParliamentMemberStore } from '../contexts/ParliamentMemberContext';
@@ -14,6 +14,7 @@ import Fuse from 'fuse.js';
 import { ParliamentMember } from '../types';
 import DetailedParliamentView from '../components/DetailedParliamentView';
 import { Clear } from '@mui/icons-material';
+import { useDebounce } from '../hooks/useDebounce';
 
 const fuseOptions = {
   useExtendedSearch: true,
@@ -34,29 +35,23 @@ const MainView: FC = () => {
   const [searchResult, setSearchResult] = useState<ParliamentMember[] | null>(
     null
   );
-
-  const [timer, setTimer] = useState<NodeJS.Timeout | undefined>();
   const [filteredMembers, setFilteredMembers] = useState<ParliamentMember[]>(
     []
   );
+
+  const debouncedValue = useDebounce(searchText);
 
   const fuse = useMemo(() => {
     return new Fuse(queryRes?.data ?? [], fuseOptions);
   }, [queryRes?.data]);
 
-  const searchDelay = (value: string) => {
-    setSearchText(value);
-
-    if (timer) {
-      clearTimeout(timer);
+  useEffect(() => {
+    if (debouncedValue.trim().length <= 0) {
+      setSearchResult(filteredMembers.length > 0 ? filteredMembers : null);
+      return;
     }
-
-    setTimer(
-      setTimeout(() => {
-        onSearchSubmit(value);
-      }, 500)
-    );
-  };
+    setSearchResult(fuse.search(debouncedValue).map((res) => res.item));
+  }, [debouncedValue, setSearchResult, filteredMembers, fuse]);
 
   const handleFilterUpdate = (party: string | null) => {
     if (!queryRes?.data) return;
@@ -69,20 +64,6 @@ const MainView: FC = () => {
       setFilteredMembers(filtered);
       fuse.setCollection(filtered);
     }
-
-    setSearchResult(
-      searchText.trim().length > 0
-        ? fuse.search(searchText).map((res) => res.item)
-        : filtered ?? null
-    );
-  };
-
-  const onSearchSubmit = (value: string) => {
-    if (value.trim().length <= 0) {
-      setSearchResult(filteredMembers.length > 0 ? filteredMembers : null);
-      return;
-    }
-    setSearchResult(fuse.search(value).map((res) => res.item));
   };
 
   const memberList = useMemo(() => {
@@ -123,7 +104,7 @@ const MainView: FC = () => {
     <Grid container gap={4}>
       <PartyList
         totalParliamentMembers={totalParliamentMembers}
-        onPartySelect={(party) => setPartySelected(party)}
+        onPartySelect={setPartySelected}
       />
       <Grid
         container
@@ -148,13 +129,12 @@ const MainView: FC = () => {
               variant="outlined"
               size="small"
               value={searchText}
-              onChange={(event) => searchDelay(event.target.value)}
+              onChange={(event) => setSearchText(event.target.value)}
               InputProps={{
                 endAdornment: (
                   <IconButton
                     onClick={() => {
                       setSearchText('');
-                      onSearchSubmit('');
                     }}
                   >
                     <Clear />
@@ -165,11 +145,7 @@ const MainView: FC = () => {
             />
           </Grid>
           <Grid item xs={3}>
-            <SearchFilters
-              setFilters={(party) => {
-                handleFilterUpdate(party);
-              }}
-            />
+            <SearchFilters setFilters={handleFilterUpdate} />
           </Grid>
         </Grid>
         <Grid

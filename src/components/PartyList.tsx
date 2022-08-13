@@ -1,5 +1,5 @@
 import { Grid, Typography } from '@mui/material';
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { Parties, PartySettings } from '../constants/Parties';
 import { PartyCard } from './PartyCard';
 
@@ -11,6 +11,23 @@ export const PartyList: FC<PartyListProps> = ({
   totalParliamentMembers,
   onPartySelect,
 }) => {
+  const partyList = useMemo(() => {
+    return Object.entries(Parties).map(([_, party]) => {
+      return (
+        <Grid
+          key={party.title}
+          container
+          item
+          xs={6}
+          sm={4}
+          paddingX={2}
+          paddingY={2}
+        >
+          <PartyCard {...party} onClick={() => onPartySelect(party)} />
+        </Grid>
+      );
+    });
+  }, [onPartySelect]);
   return (
     <Grid container>
       <Grid
@@ -27,21 +44,7 @@ export const PartyList: FC<PartyListProps> = ({
         </Typography>
       </Grid>
       <Grid container paddingX={{ xs: 2, md: 10 }}>
-        {Object.entries(Parties).map(([_, party]) => {
-          return (
-            <Grid
-              key={party.title}
-              container
-              item
-              xs={6}
-              sm={4}
-              paddingX={2}
-              paddingY={2}
-            >
-              <PartyCard {...party} onClick={() => onPartySelect(party)} />
-            </Grid>
-          );
-        })}
+        {partyList}
       </Grid>
     </Grid>
   );
