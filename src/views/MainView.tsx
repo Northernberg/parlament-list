@@ -5,21 +5,21 @@ import {
   IconButton,
   TextField,
   Typography,
-} from '@mui/material';
-import { FC, useState, useMemo, useEffect } from 'react';
-import { ParliamentMemberCard, PartyList, SearchFilters } from '../components';
-import { PartySettings } from '../constants/Parties';
-import { useParliamentMemberStore } from '../contexts/ParliamentMemberContext';
-import Fuse from 'fuse.js';
-import { ParliamentMember } from '../types';
-import DetailedParliamentView from '../components/DetailedParliamentView';
-import { Clear } from '@mui/icons-material';
-import { useDebounce } from '../hooks/useDebounce';
+} from "@mui/material";
+import { FC, useState, useMemo, useEffect } from "react";
+import { ParliamentMemberCard, PartyList, SearchFilters } from "../components";
+import { PartySettings } from "../constants/Parties";
+import { useParliamentMemberStore } from "../contexts/ParliamentMemberContext";
+import Fuse from "fuse.js";
+import { ParliamentMember } from "../types";
+import DetailedParliamentView from "../components/DetailedParliamentView";
+import { Clear } from "@mui/icons-material";
+import { useDebounce } from "../hooks/useDebounce";
 
 const fuseOptions = {
   useExtendedSearch: true,
   includeScore: true,
-  keys: ['firstname', 'lastname', 'region'],
+  keys: ["firstname", "lastname", "region"],
   threshold: 0.1,
   ignoreLocation: true,
 };
@@ -31,7 +31,7 @@ const MainView: FC = () => {
   const [partySelected, setPartySelected] = useState<
     PartySettings | undefined
   >();
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
   const [searchResult, setSearchResult] = useState<ParliamentMember[] | null>(
     null
   );
@@ -58,6 +58,7 @@ const MainView: FC = () => {
     let filtered;
 
     if (party === null) {
+      setFilteredMembers([]);
       fuse.setCollection(queryRes.data);
     } else {
       filtered = queryRes.data.filter((member) => member.party === party);
@@ -71,7 +72,7 @@ const MainView: FC = () => {
       return (
         <Typography
           color="primary"
-          sx={{ marginLeft: 'auto', marginRight: 'auto' }}
+          sx={{ marginLeft: "auto", marginRight: "auto" }}
         >
           No results found
         </Typography>
@@ -86,7 +87,7 @@ const MainView: FC = () => {
   }, [searchResult, queryRes]);
 
   if (queryRes?.isLoading) {
-    return <CircularProgress sx={{ margin: 'auto', marginTop: 2 }} />;
+    return <CircularProgress sx={{ margin: "auto", marginTop: 2 }} />;
   }
 
   if (partySelected)
@@ -112,10 +113,10 @@ const MainView: FC = () => {
         paddingX={{ md: 12, xs: 2 }}
         paddingY={2}
         gap={2}
-        sx={{ backgroundColor: '#264653', color: 'white' }}
+        sx={{ backgroundColor: "#264653", color: "white" }}
       >
         <Box>
-          <Typography variant="h5" sx={{ color: '#e9c46a' }}>
+          <Typography variant="h5" sx={{ color: "#e9c46a" }}>
             Search for members
           </Typography>
           <Typography variant="body2" fontStyle="italic">
@@ -134,26 +135,25 @@ const MainView: FC = () => {
                 endAdornment: (
                   <IconButton
                     onClick={() => {
-                      setSearchText('');
+                      setSearchText("");
                     }}
                   >
                     <Clear />
                   </IconButton>
                 ),
               }}
-              sx={{ backgroundColor: 'white', borderRadius: '4px' }}
+              sx={{ backgroundColor: "white", borderRadius: "4px" }}
             />
           </Grid>
           <Grid item xs={3}>
             <SearchFilters setFilters={handleFilterUpdate} />
           </Grid>
         </Grid>
-        <Grid
-          container
-          sx={{ backgroundColor: 'white', borderRadius: '4px', minHeight: 400 }}
-        >
-          {memberList}
-        </Grid>
+        <Box minHeight="400px" sx={{ backgroundColor: "white" }}>
+          <Grid container sx={{ borderRadius: "4px" }}>
+            {memberList}
+          </Grid>
+        </Box>
       </Grid>
     </Grid>
   );
