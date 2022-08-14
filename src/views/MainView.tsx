@@ -6,7 +6,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { FC, useState, useMemo, useEffect } from "react";
+import { FC, useState, useMemo, useEffect, useRef } from "react";
 import { ParliamentMemberCard, PartyList, SearchFilters } from "../components";
 import { useParliamentMemberStore } from "../contexts/ParliamentMemberContext";
 import Fuse from "fuse.js";
@@ -22,6 +22,8 @@ const fuseOptions = {
   threshold: 0.1,
   ignoreLocation: true,
 };
+
+const defaultPagination = 20;
 
 const MainView: FC = () => {
   const { queryRes, totalParliamentMembers } = useParliamentMemberStore();
@@ -42,7 +44,11 @@ const MainView: FC = () => {
     return new Fuse(queryRes?.data ?? [], fuseOptions);
   }, [queryRes?.data]);
 
+  const [currentPagination, setCurrentPagination] = useState(defaultPagination);
+
   useEffect(() => {
+    // Reset pagination when updating the results
+    setCurrentPagination(defaultPagination);
     if (debouncedValue.trim().length <= 0) {
       setSearchResult(filteredMembers.length > 0 ? filteredMembers : null);
       return;
@@ -64,6 +70,29 @@ const MainView: FC = () => {
     }
   };
 
+  const observer = useRef<IntersectionObserver>(
+    new IntersectionObserver((entries) => {
+      const first = entries[0];
+      if (first.isIntersecting) {
+        setCurrentPagination((prev) => prev + defaultPagination);
+      }
+    })
+  );
+
+  const [lastElement, setLastElement] = useState<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const currentObserver = observer.current;
+    if (lastElement) {
+      currentObserver.observe(lastElement);
+    }
+    return () => {
+      if (lastElement) {
+        currentObserver.unobserve(lastElement);
+      }
+    };
+  }, [lastElement]);
+
   const memberList = useMemo(() => {
     if (searchResult?.length === 0)
       return (
@@ -74,14 +103,25 @@ const MainView: FC = () => {
           No results found
         </Typography>
       );
-    return (searchResult ?? queryRes?.data ?? []).map((member) => {
-      return (
-        <Grid key={member.id} container item md={6} lg={4} padding={2}>
-          <ParliamentMemberCard {...member} displayIcon />
-        </Grid>
-      );
-    });
-  }, [searchResult, queryRes]);
+
+    return (searchResult ?? queryRes?.data ?? [])
+      .slice(0, currentPagination)
+      .map((member, index) => {
+        return (
+          <Grid
+            ref={index === currentPagination - 1 ? setLastElement : undefined}
+            key={member.id}
+            container
+            item
+            md={6}
+            lg={4}
+            padding={2}
+          >
+            <ParliamentMemberCard {...member} displayIcon />
+          </Grid>
+        );
+      });
+  }, [searchResult, queryRes, currentPagination]);
 
   if (queryRes?.error) {
     return (
