@@ -5,13 +5,13 @@ import { ParliamentMember, ParliamentMemberListByParty } from "../types";
 import { useNotifications } from "./NotificationContext";
 
 interface ParliamentMemberContextState {
-  parliamentMemberList: ParliamentMemberListByParty;
+  parliamentMemberList: ParliamentMemberListByParty | undefined;
   queryRes: UseQueryResult<ParliamentMember[]> | undefined;
   totalParliamentMembers: number | undefined;
 }
 
 const ParliamentMemberContext = createContext<ParliamentMemberContextState>({
-  parliamentMemberList: {},
+  parliamentMemberList: undefined,
   queryRes: undefined,
   totalParliamentMembers: undefined,
 });
@@ -40,8 +40,9 @@ export const ParliamentMemberProvider: FC<{ children?: ReactNode }> = ({
   children,
 }) => {
   const { setNotification } = useNotifications();
-  const [parliamentMemberList, setParliamentMemberList] =
-    useState<ParliamentMemberListByParty>({});
+  const [parliamentMemberList, setParliamentMemberList] = useState<
+    ParliamentMemberListByParty | undefined
+  >();
 
   const queryRes = useQuery(["persons"], fetchParliamentMembers, {
     onSuccess: (ParliamentMembers) => {

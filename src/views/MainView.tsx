@@ -8,13 +8,12 @@ import {
 } from "@mui/material";
 import { FC, useState, useMemo, useEffect } from "react";
 import { ParliamentMemberCard, PartyList, SearchFilters } from "../components";
-import { PartySettings } from "../constants/Parties";
 import { useParliamentMemberStore } from "../contexts/ParliamentMemberContext";
 import Fuse from "fuse.js";
 import { ParliamentMember } from "../types";
-import DetailedParliamentView from "../components/DetailedParliamentView";
 import { Clear } from "@mui/icons-material";
 import { useDebounce } from "../hooks/useDebounce";
+import { useNavigate } from "react-router-dom";
 
 const fuseOptions = {
   useExtendedSearch: true,
@@ -25,12 +24,10 @@ const fuseOptions = {
 };
 
 const MainView: FC = () => {
-  const { queryRes, parliamentMemberList, totalParliamentMembers } =
-    useParliamentMemberStore();
+  const { queryRes, totalParliamentMembers } = useParliamentMemberStore();
 
-  const [partySelected, setPartySelected] = useState<
-    PartySettings | undefined
-  >();
+  const navigate = useNavigate();
+
   const [searchText, setSearchText] = useState("");
   const [searchResult, setSearchResult] = useState<ParliamentMember[] | null>(
     null
@@ -98,22 +95,11 @@ const MainView: FC = () => {
     return <CircularProgress sx={{ margin: "auto", marginTop: 2 }} />;
   }
 
-  if (partySelected)
-    return (
-      <Grid container>
-        <DetailedParliamentView
-          partySelected={partySelected}
-          parliamentMemberList={parliamentMemberList}
-          setPartySelected={setPartySelected}
-        />
-      </Grid>
-    );
-
   return (
     <Grid container gap={4}>
       <PartyList
         totalParliamentMembers={totalParliamentMembers}
-        onPartySelect={setPartySelected}
+        onPartySelect={(party) => navigate(`/${party.key}`)}
       />
       <Grid
         container

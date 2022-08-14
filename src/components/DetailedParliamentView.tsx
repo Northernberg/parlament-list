@@ -1,22 +1,28 @@
-import { Box, Grid, Button, Typography, Slide } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Button,
+  Typography,
+  Slide,
+  CircularProgress,
+} from "@mui/material";
 import { FC, useMemo } from "react";
 import { ParliamentMemberCard } from "./ParliamentMemberCard";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { PartySettings } from "../constants/Parties";
-import { ParliamentMemberListByParty } from "../types";
+import { Parties } from "../constants/Parties";
 import { StatisticBar } from ".";
+import { useNavigate, useParams } from "react-router-dom";
+import { useParliamentMemberStore } from "../contexts/ParliamentMemberContext";
 
-interface DetailedParliamentViewProps {
-  partySelected: PartySettings;
-  parliamentMemberList: ParliamentMemberListByParty;
-  setPartySelected: (party: PartySettings | undefined) => void;
-}
-const DetailedParliamentView: FC<DetailedParliamentViewProps> = ({
-  partySelected,
-  setPartySelected,
-  parliamentMemberList,
-}) => {
+const DetailedParliamentView: FC = () => {
+  const { queryRes, parliamentMemberList } = useParliamentMemberStore();
+  const navigate = useNavigate();
+  const { partyKey } = useParams();
+
+  const partySelected = partyKey ? Parties[partyKey] : undefined;
+
   const genderStatistics = useMemo(() => {
+    if (!partySelected || !parliamentMemberList) return;
     const allPartyMembers = parliamentMemberList[partySelected.key];
     const maleAmount = allPartyMembers.filter(
       (member) => member.gender === "man"
@@ -34,7 +40,26 @@ const DetailedParliamentView: FC<DetailedParliamentViewProps> = ({
         ),
       ],
     };
-  }, [parliamentMemberList, partySelected.key]);
+  }, [parliamentMemberList, partySelected]);
+
+  if (queryRes?.error) {
+    return (
+      <Typography variant="h5">
+        There was a problem with fetching data from the Swedish Parliament
+      </Typography>
+    );
+  }
+
+  if (queryRes?.isLoading) {
+    return <CircularProgress sx={{ margin: "auto", marginTop: 2 }} />;
+  }
+
+  if (!partySelected || !genderStatistics || !parliamentMemberList)
+    return (
+      <Typography variant="h5">
+        Could not fetch the specified party data
+      </Typography>
+    );
 
   return (
     <Slide
@@ -50,7 +75,9 @@ const DetailedParliamentView: FC<DetailedParliamentViewProps> = ({
             color="primary"
             size="small"
             variant="text"
-            onClick={() => setPartySelected(undefined)}
+            onClick={() => {
+              navigate("/");
+            }}
             sx={{ height: "fit-content" }}
           >
             <ArrowBackIcon /> Back
@@ -90,7 +117,10 @@ const DetailedParliamentView: FC<DetailedParliamentViewProps> = ({
           </Typography>
           <StatisticBar
             groupA={{ title: "Male", percentage: genderStatistics.gender[0] }}
-            groupB={{ title: "Female", percentage: genderStatistics.gender[1] }}
+            groupB={{
+              title: "Female",
+              percentage: genderStatistics.gender[1],
+            }}
           />
         </Grid>
         <Grid container paddingX={{ md: 10 }}>
