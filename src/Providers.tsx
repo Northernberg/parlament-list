@@ -1,7 +1,8 @@
 import { createTheme, ThemeProvider } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { FC, ReactNode } from "react";
-import { ParliamentMemberProvider } from "../contexts/ParliamentMemberContext";
+import { NotificationProvider } from "./contexts/NotificationContext";
+import { ParliamentMemberProvider } from "./contexts/ParliamentMemberContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,7 +28,9 @@ export const Providers: FC<{ children?: ReactNode }> = ({ children }) => {
   return (
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        <ParliamentMemberProvider>{children}</ParliamentMemberProvider>
+        <NotificationProvider>
+          <ParliamentMemberProvider>{children}</ParliamentMemberProvider>
+        </NotificationProvider>
       </QueryClientProvider>
     </ThemeProvider>
   );

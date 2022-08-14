@@ -86,6 +86,14 @@ const MainView: FC = () => {
     });
   }, [searchResult, queryRes]);
 
+  if (queryRes?.error) {
+    return (
+      <Typography variant="h5">
+        There was a problem with fetching data from the Swedish Parliament
+      </Typography>
+    );
+  }
+
   if (queryRes?.isLoading) {
     return <CircularProgress sx={{ margin: "auto", marginTop: 2 }} />;
   }
